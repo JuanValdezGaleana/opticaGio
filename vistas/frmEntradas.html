@@ -1,0 +1,108 @@
+<style>
+  a:hover{
+    cursor: pointer;
+  }
+</style>
+<div id="contenedorListaFacturas">
+    <div class="accordion mb-4" id="accordionExample">
+    
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed bg-primary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <div class="h5"><strong><span class="glyphicon glyphicon-folder-open"></span> &nbsp; Dar de alta una nueva factura</strong></div>
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+    
+    
+              <form method="POST" id="frmAltaFactura" class="row">
+                  <div class="form-group col-sm-12 col-md-4">
+                      <label for="">Numero de la factura</label>
+                      <input type="text" class="form-control" name="num_factura" id="num_factura" required>
+                  </div>
+                  <div class="form-group col-sm-12 col-md-4">
+                    <label for="">Fecha de la factura</label>
+                    <input type="date" class="form-control" name="fecha_factura" id="fecha_factura" required>
+                </div>
+                  <div class="form-group col-sm-12 col-md-4">
+                    <label for="">Laboratorio proveedor</label>
+                    <select id="id_proveedor_lab" name="id_proveedor_lab" class="form-control" required>
+                        <option value="">Selecciona un proveedor</option>
+                    </select>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> &nbsp;Guardar información</button>
+                </div>
+              </form>
+              <div id="msjAltaFact" class="col-12"></div>
+    
+    
+    
+            </div>
+          </div>
+        </div>
+        
+      </div>
+         
+    
+      <div class="col-12" id="espTbFacturas"></div>
+    
+</div>
+
+<div id="contenedorAgregarProds" style="display:none">
+    <div class="row">
+        <a href="" class="btn btn-info" id="backFacturas">
+            <span class="glyphicon glyphicon-chevron-left"></span> &nbsp;Regresar
+        </a>
+    </div>
+    <div class="row">
+        <div class="col-12 h3">
+            <strong>Provedor:</strong> <span id="lbProveedor"></span><br>
+            <strong>Numero de factura:</strong> <span id="lbFactura"></span>
+        </div>
+
+        <form id="frmEntradas" method="post" class="row mt-4">
+            
+            <div class="form-group col-sm-12 col-md-6 text-center">
+                <label for="">Ingresa SKU</label>
+                <input type="text" class="form-control text-center" name="sku" id="sku" required>
+            </div>
+            <div class="form-group col-sm-12 col-md-6 text-center">
+              <label for="">Cantidad</label>
+              <input type="text" class="form-control text-center" name="cantidad" id="cantidad" required>
+          </div>
+          <input type="hidden" id="id_factura" name="id_factura">
+          <input type="hidden" id="id_proveedor_lab_add" name="id_proveedor_lab_add">
+            <div class="col-12 text-center">
+                <button  type="submit" id="btnaddProd" class="btn btn-success"><span class="glyphicon glyphicon glyphicon-plus"></span> &nbsp;Agregar producto</button>
+            </div>
+            
+        </form>
+        <div class="col-12 text-center" id="msjinsprod"></div>
+
+
+    </div>
+
+    <div class="row mt-4">
+        <table class="table table-sm" id="tbProdsFact">
+            <thead>
+              <tr>
+                <th scope="col">&nbsp;</th>
+                <th scope="col">#</th>
+                <th scope="col">SKU</th>
+                <th scope="col">TIPO LENTE</th>
+                <th scope="col">MATERIAL</th>
+                <th scope="col">GRADUACIÓN</th>
+                <th scope="col">TIPO REFRACCIÓN</th>
+                <th scope="col">CANTIDAD</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+    </div>
+
+</div>
+
