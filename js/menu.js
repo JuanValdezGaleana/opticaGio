@@ -125,6 +125,62 @@ $(function(){
                                                $('#num_factura').val('');
                                                $('#fecha_factura').val('');
                                                $('#id_proveedor_lab').val('');
+
+                                                /* Consultamos las facturas */
+                                                $.ajax({
+                                                    url:'php/altafacturas.php?op=1',
+                                                    dataType:'JSON',
+                                                    success:function(data){
+
+                                                    },
+                                                    error:function(error){
+                                                        console.error('ERROR: ',error);
+                                                    }
+                                                }).done(function(data){
+                                                        
+                                                        $('#espTbFacturas').html('<table id="tbFacturas" class=" table table-sm" style="width:100%">'+
+                                                        '<thead>'+
+                                                            '<tr>'+
+                                                                '<th>Num de factura</th>'+
+                                                                '<th>Laboratorio</th>'+
+                                                                '<th>Fecha de factura</th>'+
+                                                                '<th>&nbsp;</th>'+
+                                                            '</tr>'+
+                                                        '</thead>'+
+                                                        '<tbody>'+
+                                                        '</tbody>'+
+                                                        '<tfoot>'+
+                                                            '<tr>'+
+                                                                '<th>Num de factura</th>'+
+                                                                '<th>Laboratorio</th>'+
+                                                                '<th>Fecha de factura</th>'+
+                                                                '<th>&nbsp;</th>'+
+                                                            '</tr>'+
+                                                        '</tfoot>'+
+                                                    '</table>');
+
+                                                        $.each(data,function(ind,val){
+                                                            $('#tbFacturas tbody').append('<tr>'+
+                                                            '<td>'+val.num_factura+'</td>'+
+                                                            '<td>'+val.proveedor+'</td>'+
+                                                            '<td>'+val.fecha+'</td>'+
+                                                            '<td><a href="" onclick="agregarProducto('+val.id_factura+','+val.id_proveedor_lab+')">Seleccionar</a></td>'+
+                                                        '</tr>');
+                                                        });
+
+                                                        $('#tbFacturas').DataTable({
+                                                            "language": {
+                                                                "url": "DataTables/json/idioma_ES.json"
+                                                            }
+                                                        });
+
+                                                    }
+                                                ).fail(function(error){
+                                                        console.error('FAIL: ',error);
+                                                    }
+                                                );
+
+
                                            break;
                                        }
 
@@ -335,7 +391,8 @@ function cargarListaProds(id_factura){
                '<td>'+val.sku+'</td>'+
                '<td>'+val.tipo_lente+'</td>'+
                '<td>'+val.material+'</td>'+
-               '<td>'+val.graduacion+'</td>'+
+               '<td>'+val.graduacion_esfera+'</td>'+
+               '<td>'+val.graduacion_cilindro+'</td>'+
                '<td>'+val.tipo_refraccion+'</td>'+
                '<td>'+val.cantidad+'</td>'+
              '</tr>');

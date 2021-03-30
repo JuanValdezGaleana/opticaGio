@@ -1,10 +1,13 @@
 <?php
+header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+header("Expires: Sat, 1 Jul 2000 05:00:00 GMT"); // Fecha en el pasado
 include('conexionpdo.php');
 //session_start();
 //session_regenerate_id();
 //$id_persona=$_SESSION["SESSION_ID_PERSONA"];
 
 if(isset($_POST['id_persona'])){$id_persona=$_POST['id_persona'];}
+
 $op=$_GET['op'];
 
 $datos=array();
@@ -81,24 +84,28 @@ switch($op){
             B.SKU,
             C.TIPO_LENTE,
             D.MATERIAL,
-            E.GRADUACION,
+            E.GRADUACION AS GRAD_ESFERA,
+            G.GRADUACION AS GRAD_CILINDRO,
             F.TIPO_REFRACCION
             FROM entradas A
             INNER JOIN producto B
             ON A.ID_PRODUCTO=B.ID_PRODUCTO
-            INNER JOIN cat_tipo_lente C
+            LEFT OUTER JOIN cat_tipo_lente C
             ON B.ID_TIPO_LENTE=C.ID_TIPO_LENTE
-            INNER JOIN cat_material D
+            LEFT OUTER JOIN cat_material D
             ON B.ID_MATERIAL=D.ID_MATERIAL
-            INNER JOIN cat_graduacion E
-            ON B.ID_GRADUACION=E.ID_GRADUACION
-            INNER JOIN cat_tipo_refraccion F
+            LEFT OUTER JOIN cat_graduacion E
+            ON B.ID_GRADUACION_ESFERA=E.ID_GRADUACION
+            LEFT OUTER JOIN cat_graduacion G
+            ON B.ID_GRADUACION_CILINDRO=G.ID_GRADUACION
+            LEFT OUTER JOIN cat_tipo_refraccion F
             ON B.ID_TIPO_REFRACCION=F.ID_TIPO_REFRACCION
             WHERE A.ID_FACTURA='.$id_factura.'
             ORDER BY A.ID_ENTRADA DESC;');
             $rProv=$qProv->execute();
+
             while($dProv=$qProv->fetch()){
-                $datos[]=array('id_entrada'=>$dProv['ID_ENTRADA'],'cantidad'=>$dProv['CANTIDAD'],'id_producto'=>$dProv['ID_PRODUCTO'],'sku'=>$dProv['SKU'],'tipo_lente'=>$dProv['TIPO_LENTE'],'material'=>$dProv['MATERIAL'],'graduacion'=>$dProv['GRADUACION'],'tipo_refraccion'=>$dProv['TIPO_REFRACCION']);
+                $datos[]=array('id_entrada'=>$dProv['ID_ENTRADA'],'cantidad'=>$dProv['CANTIDAD'],'id_producto'=>$dProv['ID_PRODUCTO'],'sku'=>$dProv['SKU'],'tipo_lente'=>$dProv['TIPO_LENTE'],'material'=>$dProv['MATERIAL'],'graduacion_esfera'=>$dProv['GRAD_ESFERA'],'graduacion_cilindro'=>$dProv['GRAD_CILINDRO'],'tipo_refraccion'=>$dProv['TIPO_REFRACCION']);
             }
     break;
     

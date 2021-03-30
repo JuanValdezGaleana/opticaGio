@@ -1,9 +1,7 @@
 <?php
 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
- 
 header("Expires: Sat, 1 Jul 2000 05:00:00 GMT"); // Fecha en el pasado
-
 require('conexionpdo.php');
 
 $op=$_GET['op'];
@@ -63,6 +61,32 @@ switch($op){
             if(isset($_POST['idInv'])){ $inventario=$_POST['idInv']; }
 
             $qlpr=$con->prepare('CALL PRODUCTOS_RAPIDOS('.$inventario.');');
+            //$qlpr=$con->prepare('SELECT
+            //A.ID_PIR,
+            //A.CANTIDAD,
+            //A.ID_PRODUCTO,
+            //B.SKU,
+            //CONCAT (C.TIPO_LENTE,", ",
+            //D.MATERIAL,", ",
+            ///*E.GRADUACION,", ",*/
+            //F.TIPO_REFRACCION) AS NOM_PRODUCTO
+            //FROM productos_inv_rap A
+            //INNER JOIN producto B
+            //ON A.ID_PRODUCTO=B.ID_PRODUCTO
+            //LEFT OUTER JOIN cat_tipo_lente C
+            //ON B.ID_TIPO_LENTE=C.ID_TIPO_LENTE
+            //LEFT OUTER JOIN cat_material D
+            //ON B.ID_MATERIAL=D.ID_MATERIAL
+            ///*LEFT OUTER JOIN cat_graduacion E
+            //ON B.ID_GRADUACION=E.ID_GRADUACION*/
+            //LEFT OUTER JOIN cat_tipo_refraccion F
+            //ON B.ID_TIPO_REFRACCION=F.ID_TIPO_REFRACCION
+            //WHERE A.ID_INVENTARIO='.$inventario.'
+            //ORDER BY A.ID_PIR DESC;');
+            
+
+
+
             $rlpr=$qlpr->execute();
 
             while($dlpr=$qlpr->fetch()){
