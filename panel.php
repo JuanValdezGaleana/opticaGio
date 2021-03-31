@@ -100,7 +100,7 @@
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		<div class="profile-sidebar">
 			<div class="profile-userpic">
-				<img src="http://placehold.it/50/30a5ff/fff" class="img-responsive" alt="">
+				<img src="imagenes/logo GIO_sm.png" class="img-responsive" alt="">
 			</div>
 			<div class="profile-usertitle">
 				<div class="profile-usertitle-name"><?php echo $_SESSION["SESSION_NOMBRE"]; ?></div>
@@ -168,6 +168,10 @@
 					<div class="panel-body">
 						<div class="col-md-12" id="contenedor">
 							<!--Content-->
+							<div class="offset-md-3 col-md-6">
+								<img src="./imagenes/logo GIO.jpg" class="img-fluid" alt="...">
+							</div>
+							
 						</div>
 					</div>
 				</div><!-- /.panel-->
