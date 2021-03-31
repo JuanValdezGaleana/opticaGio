@@ -291,6 +291,8 @@ function cargarListaProdsRap(espTbProdsRap,id_inventario){
                        '<th>&nbsp;</th>'+
                        '<th>SKU</th>'+
                        '<th>Producto</th>'+
+                       '<th>Grad. Esfera</th>'+
+                       '<th>Grad. Cilindro</th>'+
                        '<th>Cantidad</th>'+
                        '<th>&nbsp;</th>'+
                        '<th>&nbsp;</th>'+
@@ -304,6 +306,8 @@ function cargarListaProdsRap(espTbProdsRap,id_inventario){
                     '<th>&nbsp;</th>'+
                     '<th>SKU</th>'+
                     '<th>Producto</th>'+
+                    '<th>Grad. Esfera</th>'+
+                    '<th>Grad. Cilindro</th>'+
                     '<th>Cantidad</th>'+
                     '<th>&nbsp;</th>'+
                     '<th>&nbsp;</th>'+
@@ -331,6 +335,8 @@ function cargarListaProdsRap(espTbProdsRap,id_inventario){
                                    '<td>'+(ind+1)+'</td>'+
                                    '<td>'+val.sku+'</td>'+
                                    '<td>'+val.nom_poducto+'</td>'+
+                                   '<td>'+val.graduacion_esfera+'</td>'+
+                                   '<td>'+val.graduacion_cilindro+'</td>'+
                                    '<td id="tdcant'+val.id_pir+'">'+val.cantidad+'</div>'+
                                    '<td><a href="" onclick="modif('+val.id_pir+','+ind+')">Modificar</a></div>'+
                                    '<td><a href="" onclick="borrarProd('+val.id_pir+','+ind+','+id_inventario+')">Borrar</a></div>'+

@@ -60,29 +60,34 @@ switch($op){
     case 3:
             if(isset($_POST['idInv'])){ $inventario=$_POST['idInv']; }
 
-            $qlpr=$con->prepare('CALL PRODUCTOS_RAPIDOS('.$inventario.');');
-            //$qlpr=$con->prepare('SELECT
-            //A.ID_PIR,
-            //A.CANTIDAD,
-            //A.ID_PRODUCTO,
-            //B.SKU,
-            //CONCAT (C.TIPO_LENTE,", ",
-            //D.MATERIAL,", ",
-            ///*E.GRADUACION,", ",*/
-            //F.TIPO_REFRACCION) AS NOM_PRODUCTO
-            //FROM productos_inv_rap A
-            //INNER JOIN producto B
-            //ON A.ID_PRODUCTO=B.ID_PRODUCTO
-            //LEFT OUTER JOIN cat_tipo_lente C
-            //ON B.ID_TIPO_LENTE=C.ID_TIPO_LENTE
-            //LEFT OUTER JOIN cat_material D
-            //ON B.ID_MATERIAL=D.ID_MATERIAL
-            ///*LEFT OUTER JOIN cat_graduacion E
-            //ON B.ID_GRADUACION=E.ID_GRADUACION*/
-            //LEFT OUTER JOIN cat_tipo_refraccion F
-            //ON B.ID_TIPO_REFRACCION=F.ID_TIPO_REFRACCION
-            //WHERE A.ID_INVENTARIO='.$inventario.'
-            //ORDER BY A.ID_PIR DESC;');
+            //$qlpr=$con->prepare('CALL PRODUCTOS_RAPIDOS('.$inventario.');');
+            $qlpr=$con->prepare('SELECT
+            A.ID_PIR,
+            A.CANTIDAD,
+            A.ID_PRODUCTO,
+            B.SKU,
+            C.TIPO_LENTE,
+            D.MATERIAL,
+            E.GRADUACION AS GRAD_ESFERA,
+            G.GRADUACION AS GRAD_CILINDRO,
+            F.TIPO_REFRACCION
+            FROM productos_inv_rap A
+            INNER JOIN producto B
+            ON A.ID_PRODUCTO=B.ID_PRODUCTO
+            LEFT OUTER JOIN cat_tipo_lente C
+            ON B.ID_TIPO_LENTE=C.ID_TIPO_LENTE
+            LEFT OUTER JOIN cat_material D
+            ON B.ID_MATERIAL=D.ID_MATERIAL
+            
+            LEFT OUTER JOIN cat_graduacion E
+            ON B.ID_GRADUACION_ESFERA=E.ID_GRADUACION
+            LEFT OUTER JOIN cat_graduacion G
+            ON B.ID_GRADUACION_CILINDRO=G.ID_GRADUACION
+            
+            LEFT OUTER JOIN cat_tipo_refraccion F
+            ON B.ID_TIPO_REFRACCION=F.ID_TIPO_REFRACCION
+            WHERE A.ID_INVENTARIO='.$inventario.'
+            ORDER BY A.ID_PIR DESC;');
             
 
 
@@ -93,8 +98,12 @@ switch($op){
                 $datos[]=array('id_pir'=>$dlpr['ID_PIR'],
                                'id_producto'=>$dlpr['ID_PRODUCTO'],
                                'sku'=>$dlpr['SKU'],
-                               'nom_poducto'=>$dlpr['NOM_PRODUCTO'],
+                               'nom_poducto'=>$dlpr['TIPO_LENTE'].' '.$dlpr['MATERIAL'].$dlpr['TIPO_REFRACCION'],
+                               'graduacion_esfera'=>$dlpr['GRAD_ESFERA'],
+                               'graduacion_cilindro'=>$dlpr['GRAD_CILINDRO'],
                                'cantidad'=>$dlpr['CANTIDAD']);
+
+                               //cREAR EL NOMBRE DEL PRODUCTO CONCATENANDO LOS REGISTROS
             }
 
     break;

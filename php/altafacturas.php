@@ -105,7 +105,15 @@ switch($op){
             $rProv=$qProv->execute();
 
             while($dProv=$qProv->fetch()){
-                $datos[]=array('id_entrada'=>$dProv['ID_ENTRADA'],'cantidad'=>$dProv['CANTIDAD'],'id_producto'=>$dProv['ID_PRODUCTO'],'sku'=>$dProv['SKU'],'tipo_lente'=>$dProv['TIPO_LENTE'],'material'=>$dProv['MATERIAL'],'graduacion_esfera'=>$dProv['GRAD_ESFERA'],'graduacion_cilindro'=>$dProv['GRAD_CILINDRO'],'tipo_refraccion'=>$dProv['TIPO_REFRACCION']);
+                $datos[]= array('id_entrada'=>$dProv['ID_ENTRADA'],
+                                'cantidad'=>$dProv['CANTIDAD'],
+                                'id_producto'=>$dProv['ID_PRODUCTO'],
+                                'sku'=>$dProv['SKU'],
+                                'tipo_lente'=>$dProv['TIPO_LENTE'],
+                                'material'=>$dProv['MATERIAL'],
+                                'graduacion_esfera'=>$dProv['GRAD_ESFERA'],
+                                'graduacion_cilindro'=>$dProv['GRAD_CILINDRO'],
+                                'tipo_refraccion'=>$dProv['TIPO_REFRACCION']);
             }
     break;
     
