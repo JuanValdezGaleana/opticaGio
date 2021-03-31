@@ -43,6 +43,24 @@
 </section>
 
 <section class="row mb-5" id="espListaProductos" style="display: none;">
+  <div class="col-12 h3">
+      <strong>Nombre de inventario:</strong> <span id="lbInventario"></span><br>
+      <strong>Fecha de inventario:</strong> <span id="lbFechaInv"></span><br>
+      <div id="espBtnCerrarInv" class="mt-5">
+
+      </div>
+      <div class="row" id="espBtnsInv" style="display: none;">
+        <h4 class="mt-3 text-danger">¿Estas seguro de cerrar el inventario?</h4>
+        <div onclick="cancelarCerrarInv()" class="btn btn-primary col-sm-3 ml-2 mr-2">Cancelar</div>
+        <form id="frmConfirmCerrarInv" method="POST">
+          <button type="submit" class="btn btn-success col-sm-3 ml-2 mr-2">Cerrar inventario</button>
+          <input type="hidden" id="iic" name="iic">
+        </form>
+        
+        
+      </div>
+    
+    </div>
     <form method="POST" id="frmAltaProd" class="row">
         <div class="form-group col-sm-12 col-md-4">
             <label for="">SKU / codigo de barras</label>

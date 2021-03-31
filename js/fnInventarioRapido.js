@@ -209,13 +209,136 @@ function cargarListaInventarios(espTbInventarios){
 
 }
 
+function infoInventarioRap(id_inventario){
+    $.ajax({
+        url:'php/inventarios_rapidos.php?op=8',
+        data:'id_inventario='+id_inventario,
+        dataType:'JSON',
+        type:'POST',
+        success:function(data){
+
+        },
+        error:function(error){
+            console.error('ERROR: ',error);
+        }
+    }).done(
+        function(data){
+            //console.log('Info: ',data);
+            $.each(data,function(ind,val){
+                $('#lbInventario').text(val.nom_inv);
+                $('#lbFechaInv').text(val.fecha_inv);
+                if(val.estatus==0){ //Si está abierta la factura
+                    $('#espBtnCerrarInv').html('<div class="btn btn-primary" onclick="btnCerrarInv('+id_inventario+')"><span class="fa fa-lock"></span> Cerrar factura para que ya no se puedan agregar productos</div>');
+                }else if(val.estatus==1){ //Si está cerrada la factura
+                    $('#espBtnCerrarInv').html('<div class="alert alert-success text-center"><span class="fa fa-check-circle"></span> Esta factura se encuentra cerrada</div>');
+                    $('#frmEntradas').remove();
+                    
+                }
+            });
+            
+        }
+    ).fail(
+        function(error){
+            console.error('FAIL: ',error);
+        }
+    );
+
+
+
+
+
+
+    $('#frmConfirmCerrarInv').on('submit',function(){
+        event.preventDefault();
+        
+        $.ajax({
+            url:'php/inventarios_rapidos.php?op=9',
+            data:$(this).serialize(),
+            dataType:'JSON',
+            type:'POST',
+            success:function(data){},
+            error:function(error){
+                console.error('ERROR: ',error);
+            }
+        }).done(
+            function(data){
+                //('RES INV: ',data);
+                $.each(data,function(ind,val){
+                    $('#espBtnCerrarInv').show('fast');
+                    $('#espBtnsInv').hide('fast');
+                    $('#ifc').val(val.id_factura);
+                });
+                $.ajax({
+                    url:'php/inventarios_rapidos.php?op=8',
+                    data:'id_inventario='+id_inventario,
+                    dataType:'JSON',
+                    type:'POST',
+                    success:function(data){
+            
+                    },
+                    error:function(error){
+                        console.error('ERROR: ',error);
+                    }
+                }).done(
+                    function(data){
+                        //console.log('Info: ',data);
+                        $.each(data,function(ind,val){
+                            $('#lbInventario').text(val.nom_inv);
+                            $('#lbFechaInv').text(val.fecha_inv);
+                            if(val.estatus==0){ //Si está abierta la factura
+                                $('#espBtnCerrarInv').html('<div class="btn btn-primary" onclick="btnCerrarInv('+id_inventario+')"><span class="fa fa-lock"></span> Cerrar factura para que ya no se puedan agregar productos</div>');
+                            }else if(val.estatus==1){ //Si está cerrada la factura
+                                $('#espBtnCerrarInv').html('<div class="alert alert-success text-center"><span class="fa fa-check-circle"></span> Esta factura se encuentra cerrada</div>');
+                                $('#frmEntradas').remove();
+                                
+                            }
+                        });
+                        
+                    }
+                ).fail(
+                    function(error){
+                        console.error('FAIL: ',error);
+                    }
+                );
+
+            }
+        ).fail(
+            function(error){
+                console.error('FAIL: ',error);
+            }
+        );
+    });
+
+
+
+
+
+
+
+
+
+
+
+}
+
+function btnCerrarInv(id_inventario){
+    $('#espBtnCerrarInv').hide('fast');
+    $('#espBtnsInv').show('fast');
+    $('#iic').val(id_inventario);
+}
+
+function cancelarCerrarInv(){
+    $('#espBtnsInv').hide('fast');
+    $('#espBtnCerrarInv').show('fast');
+    $('#iic').val('');
+}
 
 function abrirInventarioRapido(id_inventario){
 
     event.preventDefault();
     const espTbProdsRap=$('#espTbProdsRap');
     cargarListaProdsRap(espTbProdsRap,id_inventario);
-
+    infoInventarioRap(id_inventario);
     const frmAltaProd=$('#frmAltaProd');
     const cod=$('#cod');
     

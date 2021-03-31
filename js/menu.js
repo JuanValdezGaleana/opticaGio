@@ -248,10 +248,10 @@ $(function(){
                                 }
                             }).done(
                                 function(data){
-                                    console.log('producto ingresado con SKU:',data);
+                                    //console.log('producto ingresado con SKU:',data);
 
                                     $.each(data,function(ind,val){
-                                    console.log('ESTATUS=',val.stat);
+                                    //console.log('ESTATUS=',val.stat);
                                     if(val.stat==0){
                                         $('#msjinsprod').addClass('alert alert-danger').text(val.msj);
 

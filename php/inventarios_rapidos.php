@@ -276,7 +276,29 @@ switch($op){
         //}else{
         //    $datos[]=array('Error en php'=>$err);
        // }
-break;
+    break;
+    case 8:
+            /*Consultamos la informacion del inventario rápido */
+            $id_inventario=$_POST['id_inventario'];
+            $inf=$con->prepare('SELECT NOMBRE_INV,FECHA_INV,ID_ESTATUS FROM inventarios_rapidos WHERE ID_INVENTARIO='.$id_inventario.';');
+            $inf->execute();
+            while($dinf=$inf->fetch()){
+                $datos[]=array('nom_inv'=>$dinf['NOMBRE_INV'],'fecha_inv'=>$dinf['FECHA_INV'],'estatus'=>$dinf['ID_ESTATUS']);
+            }
+
+    break;
+    case 9:
+        /* Actualizamos el estatus de la facturapara que ya no se puedan cargar datos */
+        $iic=$_POST['iic'];
+        $updStat=$con->prepare('UPDATE inventarios_rapidos SET ID_ESTATUS=1 WHERE ID_INVENTARIO='.$iic.';');
+        $dupdStat=$updStat->execute();
+        if($dupdStat){
+            $datos[]=array('msj'=>'Se ha cerrado el inventario y ya no se pueden cargar mas datos','id_factura'=>$iic);
+        }else{
+            $datos[]=array('msj'=>'Ocurrió un error al cerrar el inventario');
+        }
+
+    break;
 
 
     dafault:
