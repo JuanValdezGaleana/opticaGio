@@ -35,7 +35,7 @@ switch($op){
         $fecha_factura=$_POST['fecha_factura'];
         $id_proveedor_lab=$_POST['id_proveedor_lab'];
         
-        $insFact=$con->prepare('INSERT INTO facturas VALUES("","'.$num_factura.'","'.$fecha_factura.' 00:00:00",'.$id_proveedor_lab.');');
+        $insFact=$con->prepare('INSERT INTO facturas VALUES("","'.$num_factura.'","'.$fecha_factura.' 00:00:00",'.$id_proveedor_lab.',0);');
         $dinsFact=$insFact->execute();
 
         if($dinsFact){

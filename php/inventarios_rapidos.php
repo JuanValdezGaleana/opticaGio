@@ -61,33 +61,84 @@ switch($op){
             if(isset($_POST['idInv'])){ $inventario=$_POST['idInv']; }
 
             //$qlpr=$con->prepare('CALL PRODUCTOS_RAPIDOS('.$inventario.');');
-            $qlpr=$con->prepare('SELECT
-            A.ID_PIR,
-            A.CANTIDAD,
+            //$qlpr=$con->prepare('SELECT
+            //A.ID_PIR,
+            //A.CANTIDAD,
+            //A.ID_PRODUCTO,
+            //B.SKU,
+            //C.TIPO_LENTE,
+            //D.MATERIAL,
+            //E.GRADUACION AS GRAD_ESFERA,
+            //G.GRADUACION AS GRAD_CILINDRO,
+            //F.TIPO_REFRACCION
+            //FROM productos_inv_rap A
+            //INNER JOIN producto B
+            //ON A.ID_PRODUCTO=B.ID_PRODUCTO
+            //LEFT OUTER JOIN cat_tipo_lente C
+            //ON B.ID_TIPO_LENTE=C.ID_TIPO_LENTE
+            //LEFT OUTER JOIN cat_material D
+            //ON B.ID_MATERIAL=D.ID_MATERIAL
+            //
+            //LEFT OUTER JOIN cat_graduacion E
+            //ON B.ID_GRADUACION_ESFERA=E.ID_GRADUACION
+            //LEFT OUTER JOIN cat_graduacion G
+            //ON B.ID_GRADUACION_CILINDRO=G.ID_GRADUACION
+            //
+            //LEFT OUTER JOIN cat_tipo_refraccion F
+            //ON B.ID_TIPO_REFRACCION=F.ID_TIPO_REFRACCION
+            //WHERE A.ID_INVENTARIO='.$inventario.'
+            //ORDER BY A.ID_PIR DESC;');
+
+            $qlpr=$con->prepare('SELECT 
             A.ID_PRODUCTO,
-            B.SKU,
-            C.TIPO_LENTE,
-            D.MATERIAL,
-            E.GRADUACION AS GRAD_ESFERA,
-            G.GRADUACION AS GRAD_CILINDRO,
-            F.TIPO_REFRACCION
-            FROM productos_inv_rap A
-            INNER JOIN producto B
-            ON A.ID_PRODUCTO=B.ID_PRODUCTO
-            LEFT OUTER JOIN cat_tipo_lente C
-            ON B.ID_TIPO_LENTE=C.ID_TIPO_LENTE
-            LEFT OUTER JOIN cat_material D
-            ON B.ID_MATERIAL=D.ID_MATERIAL
+            A.SKU,
+            B.PROVEEDOR,
+            A.DESCRIPCION,
+            C.MATERIAL,
+            D.INDICE_REFRACCION,
+            E.ESFERICIDAD,
+            F.MARCA,
+            G.TRATAMIENTO,
+            H.FILTRO_UV,
+            I.DIAMETRO,
+            J.TIPO_LENTE,
+            K.GRADUACION AS GRADUACION_ESFERA,
+            L.GRADUACION AS GRADUACION_CILINDRO,
+            M.TIPO_REFRACCION,
+            N.CANTIDAD,
+            N.ID_PIR
+            FROM producto A
+            LEFT OUTER JOIN cat_proveedor_lab B
+            ON A.ID_PROVEEDOR_LAB=B.ID_PROVEEDOR_LAB
+            LEFT OUTER JOIN cat_material C
+            ON A.ID_MATERIAL=C.ID_MATERIAL
+            LEFT OUTER JOIN cat_indice_refraccion_n D
+            ON A.ID_INDICE_REF=D.ID_INDICE_REF
+            LEFT OUTER JOIN cat_esfericidad E
+            ON A.ID_ESFERICIDAD=E.ID_ESFERICIDAD
+            LEFT OUTER JOIN cat_marca F
+            ON A.ID_MARCA=F.ID_MARCA
+            LEFT OUTER JOIN cat_tratamiento_ar G
+            ON A.ID_TRATAMIENTO=G.ID_TRATAMIENTO
+            LEFT OUTER JOIN cat_filtro_uv H
+            ON A.ID_FILTRO=H.ID_FILTRO_UV
+            LEFT OUTER JOIN cat_diametro I
+            ON A.ID_DIAMETRO=I.ID_DIAMETRO
+            LEFT OUTER JOIN cat_tipo_lente J
+            ON A.ID_TIPO_LENTE=J.ID_TIPO_LENTE
+            LEFT OUTER JOIN cat_graduacion K
+            ON A.ID_GRADUACION_ESFERA=K.ID_GRADUACION
+            LEFT OUTER JOIN cat_graduacion L  
+            ON A.ID_GRADUACION_CILINDRO=L.ID_GRADUACION
+            LEFT OUTER JOIN cat_tipo_refraccion M
+            ON A.ID_TIPO_REFRACCION=M.ID_TIPO_REFRACCION
+            LEFT OUTER JOIN productos_inv_rap N
+            ON A.ID_PRODUCTO=N.ID_PRODUCTO
+            WHERE N.ID_INVENTARIO=2
+            ORDER BY 1');
+
+
             
-            LEFT OUTER JOIN cat_graduacion E
-            ON B.ID_GRADUACION_ESFERA=E.ID_GRADUACION
-            LEFT OUTER JOIN cat_graduacion G
-            ON B.ID_GRADUACION_CILINDRO=G.ID_GRADUACION
-            
-            LEFT OUTER JOIN cat_tipo_refraccion F
-            ON B.ID_TIPO_REFRACCION=F.ID_TIPO_REFRACCION
-            WHERE A.ID_INVENTARIO='.$inventario.'
-            ORDER BY A.ID_PIR DESC;');
             
 
 
@@ -96,12 +147,23 @@ switch($op){
 
             while($dlpr=$qlpr->fetch()){
                 $datos[]=array('id_pir'=>$dlpr['ID_PIR'],
-                               'id_producto'=>$dlpr['ID_PRODUCTO'],
-                               'sku'=>$dlpr['SKU'],
-                               'nom_poducto'=>$dlpr['TIPO_LENTE'].' '.$dlpr['MATERIAL'].$dlpr['TIPO_REFRACCION'],
-                               'graduacion_esfera'=>$dlpr['GRAD_ESFERA'],
-                               'graduacion_cilindro'=>$dlpr['GRAD_CILINDRO'],
-                               'cantidad'=>$dlpr['CANTIDAD']);
+                               'ID_PRODUCTO'=>$dlpr['ID_PRODUCTO'],
+                               'SKU'=>$dlpr['SKU'],
+                               'PROVEEDOR'=>$dlpr['PROVEEDOR'],
+                               'DESCRIPCION'=>$dlpr['DESCRIPCION'],
+                               'MATERIAL'=>$dlpr['MATERIAL'],
+                               'INDICE_REFRACCION'=>$dlpr['INDICE_REFRACCION'],
+                               'ESFERICIDAD'=>$dlpr['ESFERICIDAD'],
+                               'MARCA'=>$dlpr['MARCA'],
+                               'TRATAMIENTO'=>$dlpr['TRATAMIENTO'],
+                               'FILTRO_UV'=>$dlpr['FILTRO_UV'],
+                               'DIAMETRO'=>$dlpr['DIAMETRO'],
+                               'TIPO_LENTE'=>$dlpr['TIPO_LENTE'],
+                               'GRADUACION_ESFERA'=>$dlpr['GRADUACION_ESFERA'],
+                               'GRADUACION_CILINDRO'=>$dlpr['GRADUACION_CILINDRO'],
+                               'TIPO_REFRACCION'=>$dlpr['TIPO_REFRACCION'],
+                               'CANTIDAD'=>$dlpr['CANTIDAD'],
+                               );
 
                                //cREAR EL NOMBRE DEL PRODUCTO CONCATENANDO LOS REGISTROS
             }

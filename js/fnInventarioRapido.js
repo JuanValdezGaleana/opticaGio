@@ -452,15 +452,16 @@ function cargarListaProdsRap(espTbProdsRap,id_inventario){
                }
            }).done(
                function(data){
+                   
                        $.each(data,function(ind,val){
                            $('#tbProdsRap tbody').append(''+
                                '<tr id="trpir'+ind+'">'+
                                    '<td>'+(ind+1)+'</td>'+
-                                   '<td>'+val.sku+'</td>'+
-                                   '<td>'+val.nom_poducto+'</td>'+
-                                   '<td>'+val.graduacion_esfera+'</td>'+
-                                   '<td>'+val.graduacion_cilindro+'</td>'+
-                                   '<td id="tdcant'+val.id_pir+'">'+val.cantidad+'</div>'+
+                                   '<td>'+val.SKU+'</td>'+
+                                   '<td>'+val.DESCRIPCION+'</td>'+
+                                   '<td>'+val.GRADUACION_ESFERA+'</td>'+
+                                   '<td>'+val.GRADUACION_CILINDRO+'</td>'+
+                                   '<td id="tdcant'+val.id_pir+'">'+val.CANTIDAD+'</div>'+
                                    '<td><a href="" onclick="modif('+val.id_pir+','+ind+')">Modificar</a></div>'+
                                    '<td><a href="" onclick="borrarProd('+val.id_pir+','+ind+','+id_inventario+')">Borrar</a></div>'+
                                '</tr>'+
