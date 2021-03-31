@@ -59,7 +59,21 @@
     <div class="row">
         <div class="col-12 h3">
             <strong>Provedor:</strong> <span id="lbProveedor"></span><br>
-            <strong>Numero de factura:</strong> <span id="lbFactura"></span>
+            <strong>Numero de factura:</strong> <span id="lbFactura"></span><br>
+            <div id="espBtnCerrar" class="mt-5">
+
+            </div>
+            <div class="row" id="espBtns" style="display: none;">
+              <h4 class="mt-3 text-danger">¿Estas seguro de cerrar la factura?</h4>
+              <div onclick="cancelarCerrarFactura()" class="btn btn-primary col-sm-3 ml-2 mr-2">Cancelar</div>
+              <form id="frmConfirmCerrar" method="POST">
+                <button type="submit" class="btn btn-success col-sm-3 ml-2 mr-2">Cerrar factura</button>
+                <input type="hidden" id="ifc" name="ifc">
+              </form>
+              
+              
+            </div>
+            
         </div>
 
         <form id="frmEntradas" method="post" class="row mt-4">

@@ -342,11 +342,19 @@ function agregarProducto(id_factura,id_proveedor_lab){
         }
     }).done(
         function(data){
+            //console.log('--**********',data);
             $.each(data,function(ind,val){
                 $('#lbProveedor').text(val.proveedor_lab);
                 $('#lbFactura').text(val.num_factura);
                 $('#id_factura').val(val.id_factura);
                 $('#id_proveedor_lab_add').val(val.id_proveedor_lab_add);
+                if(val.estatus==0){ //Si está abierta la factura
+                    $('#espBtnCerrar').html('<div class="btn btn-primary" onclick="btnCerrarFact('+val.id_factura+')"><span class="fa fa-lock"></span> Cerrar factura para que ya no se puedan agregar productos</div>');
+                }else if(val.estatus==1){ //Si está cerrada la factura
+                    $('#espBtnCerrar').html('<div class="alert alert-success text-center"><span class="fa fa-check-circle"></span> Esta factura se encuentra cerrada</div>');
+                    $('#frmEntradas').remove();
+                    
+                }
             });
         }
     ).fail(
@@ -358,13 +366,83 @@ function agregarProducto(id_factura,id_proveedor_lab){
     cargarListaProds(id_factura);
 
     
+        $('#frmConfirmCerrar').on('submit',function(){
+            event.preventDefault();
+            
+            $.ajax({
+                url:'php/altafacturas.php?op=9',
+                data:$(this).serialize(),
+                dataType:'JSON',
+                type:'POST',
+                success:function(data){},
+                error:function(error){
+                    console.error('ERROR: ',error);
+                }
+            }).done(
+                function(data){
+                    //console.log('RES: ',data);
+                    $('#espBtnCerrar').show('fast');
+                    $('#espBtns').hide('fast');
+                    $('#ifc').val(id_factura);
+                    /* Consultamos el laboratorio proveedor y el numero de factura */
+                    $.ajax({
+                        url:'php/altafacturas.php?op=4',
+                        data:'id_factura='+id_factura,
+                        dataType:'JSON',
+                        type:'POST',
+                        success:function(data){
 
+                        },
+                        error:function(error){
+                            console.error('ERROR: ',error);
+                        }
+                    }).done(
+                        function(data){
+                            //console.log('--**********',data);
+                            $.each(data,function(ind,val){
+                                $('#lbProveedor').text(val.proveedor_lab);
+                                $('#lbFactura').text(val.num_factura);
+                                $('#id_factura').val(val.id_factura);
+                                $('#id_proveedor_lab_add').val(val.id_proveedor_lab_add);
+                                if(val.estatus==0){ //Si está abierta la factura
+                                    $('#espBtnCerrar').html('<div class="btn btn-primary" onclick="btnCerrarFact('+val.id_factura+')"><span class="fa fa-lock"></span> Cerrar factura para que ya no se puedan agregar productos</div>');
+                                }else if(val.estatus==1){ //Si está cerrada la factura
+                                    $('#espBtnCerrar').html('<div class="alert alert-success text-center"><span class="fa fa-check-circle"></span> Esta factura se encuentra cerrada</div>');
+                                    $('#frmEntradas').remove();
+                                    
+                                }
+                            });
+                        }
+                    ).fail(
+                        function(error){
+                            console.error('FAIL: ',error);
+                        }
+                    );
+                }
+            ).fail(
+                function(error){
+                    console.error('FAIL: ',error);
+                }
+            );
+        });
 
 
 
 
 }
 
+
+function btnCerrarFact(id_factura){
+    $('#espBtnCerrar').hide('fast');
+    $('#espBtns').show('fast');
+    $('#ifc').val(id_factura);
+}
+
+function cancelarCerrarFactura(){
+    $('#espBtns').hide('fast');
+    $('#espBtnCerrar').show('fast');
+    $('#ifc').val('');
+}
 
 function cargarListaProds(id_factura){
     /* Consultamos la lista de productos agregados a la factura */

@@ -61,7 +61,8 @@ switch($op){
         $qProv=$con->prepare('SELECT
             B.ID_PROVEEDOR_LAB,
             B.PROVEEDOR,
-            A.NUM_FACTURA
+            A.NUM_FACTURA,
+            A.ID_ESTATUS
             FROM facturas A
             INNER JOIN cat_proveedor_lab B
             ON A.ID_PROVEEDOR_LAB=B.ID_PROVEEDOR_LAB
@@ -71,7 +72,8 @@ switch($op){
                 $datos[]=array('id_factura'=>$id_factura,
                 'id_proveedor_lab_add'=>$dProv['ID_PROVEEDOR_LAB'],
                 'proveedor_lab'=>$dProv['PROVEEDOR'],
-                'num_factura'=>$dProv['NUM_FACTURA']);
+                'num_factura'=>$dProv['NUM_FACTURA'],
+                'estatus'=>$dProv['ID_ESTATUS']);
             }
     break;
 
@@ -262,6 +264,28 @@ switch($op){
             
             
             
+
+    break;
+    case 8:
+            /* Consultamos el estatus de la factura para saber si está cerrado o no */
+        $id_factura=$_POST['idfact'];
+        $statClose=$con->prepare('SELECT ID_ESTATUS FROM facturas WHERE ID_FACTURA='.$id_factura,';');
+        $statClose->execute();
+        while($datStat=$statClose->fetch()){
+            $datos[]=array('estatusCerrado'=>$datStat['ID_ESTATUS']);
+        }
+
+    break;
+    case 9:
+        /* Actualizamos el estatus de la facturapara que ya no se puedan cargar datos */
+        $ifc=$_POST['ifc'];
+        $updStat=$con->prepare('UPDATE facturas SET ID_ESTATUS=1 WHERE ID_FACTURA='.$ifc.';');
+        $dupdStat=$updStat->execute();
+        if($dupdStat){
+            $datos[]=array('msj'=>'Se ha cerrado la factura y ya no se pueden cargar mas datos');
+        }else{
+            $datos[]=array('msj'=>'Ocurrió un error al cerrar la factura');
+        }
 
     break;
 }
