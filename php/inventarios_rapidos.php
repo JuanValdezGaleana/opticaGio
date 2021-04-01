@@ -134,7 +134,7 @@ switch($op){
             ON A.ID_TIPO_REFRACCION=M.ID_TIPO_REFRACCION
             LEFT OUTER JOIN productos_inv_rap N
             ON A.ID_PRODUCTO=N.ID_PRODUCTO
-            WHERE N.ID_INVENTARIO=2
+            WHERE N.ID_INVENTARIO='.$inventario.'
             ORDER BY 1');
 
 
