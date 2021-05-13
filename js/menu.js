@@ -467,11 +467,11 @@ function cargarListaProds(id_factura){
                '<td><a id="iconTrash'+val.id_entrada+'" onclick="confirmarBorrarEntrada('+val.id_entrada+')" class="fa fa-trash text-danger"></a><div id="msjConfirmacion'+val.id_entrada+'" class="col-12" style="display:none;"><span class="text-info">¿Seguro que quieres borrar este registro?</span><a onclick="confirmarBorrado('+val.id_entrada+','+val.cantidad+','+val.id_producto+')" class="text-success">SI</a> <a id="cancelarConfirmacion'+val.id_entrada+'" onclick="cancelarBorrado('+val.id_entrada+')" class="text-danger">NO</a></div></td>'+
                '<td>'+(ind+1)+'</td>'+
                '<td>'+val.sku+'</td>'+
-               '<td>'+val.tipo_lente+'</td>'+
+               '<td>'+val.descripcion+'</td>'+
                '<td>'+val.material+'</td>'+
                '<td>'+val.graduacion_esfera+'</td>'+
                '<td>'+val.graduacion_cilindro+'</td>'+
-               '<td>'+val.tipo_refraccion+'</td>'+
+               '<td>'+val.tratamiento+'</td>'+
                '<td>'+val.cantidad+'</td>'+
              '</tr>');
             });

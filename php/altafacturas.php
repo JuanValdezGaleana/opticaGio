@@ -84,11 +84,11 @@ switch($op){
             A.CANTIDAD,
             A.ID_PRODUCTO,
             B.SKU,
-            C.TIPO_LENTE,
+            B.DESCRIPCION,
             D.MATERIAL,
             E.GRADUACION AS GRAD_ESFERA,
             G.GRADUACION AS GRAD_CILINDRO,
-            F.TIPO_REFRACCION
+            H.TRATAMIENTO
             FROM entradas A
             INNER JOIN producto B
             ON A.ID_PRODUCTO=B.ID_PRODUCTO
@@ -102,6 +102,8 @@ switch($op){
             ON B.ID_GRADUACION_CILINDRO=G.ID_GRADUACION
             LEFT OUTER JOIN cat_tipo_refraccion F
             ON B.ID_TIPO_REFRACCION=F.ID_TIPO_REFRACCION
+            LEFT OUTER JOIN cat_tratamiento_ar H
+            ON B.ID_TRATAMIENTO=H.ID_TRATAMIENTO
             WHERE A.ID_FACTURA='.$id_factura.'
             ORDER BY A.ID_ENTRADA DESC;');
             $rProv=$qProv->execute();
@@ -111,11 +113,11 @@ switch($op){
                                 'cantidad'=>$dProv['CANTIDAD'],
                                 'id_producto'=>$dProv['ID_PRODUCTO'],
                                 'sku'=>$dProv['SKU'],
-                                'tipo_lente'=>$dProv['TIPO_LENTE'],
+                                'descripcion'=>$dProv['DESCRIPCION'],
                                 'material'=>$dProv['MATERIAL'],
                                 'graduacion_esfera'=>$dProv['GRAD_ESFERA'],
                                 'graduacion_cilindro'=>$dProv['GRAD_CILINDRO'],
-                                'tipo_refraccion'=>$dProv['TIPO_REFRACCION']);
+                                'tratamiento'=>$dProv['TRATAMIENTO']);
             }
     break;
     
